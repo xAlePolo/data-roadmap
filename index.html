@@ -1,0 +1,2772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alejandro Polo · Personal Roadmap to Data Engineering</title>
+<style>
+  :root {
+    --bg0:#05070c;
+    --bg1:#0a1020;
+    --glass: rgba(15, 23, 42, 0.62);
+    --glass2: rgba(15, 23, 42, 0.40);
+    --line: rgba(255,255,255,.08);
+    --text:#e5eefb;
+    --muted:#9fb1c8;
+    --muted2:#7c8da8;
+    --good:#22c55e;
+    --shadow: 0 18px 50px rgba(0,0,0,.35);
+    --radius: 24px;
+    --radius2: 18px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(59,130,246,.18), transparent 30%),
+      radial-gradient(circle at 80% 10%, rgba(168,85,247,.16), transparent 28%),
+      radial-gradient(circle at 50% 80%, rgba(34,197,94,.12), transparent 25%),
+      linear-gradient(180deg, var(--bg1), var(--bg0) 48%);
+    min-height:100vh;
+  }
+  a { color: inherit; }
+  .wrap {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 28px 18px 60px;
+  }
+  .hero {
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    backdrop-filter: blur(18px);
+    border-radius: 32px;
+    box-shadow: var(--shadow);
+    padding: 34px 28px;
+  }
+  .hero::before {
+    content:"";
+    position:absolute; inset:-2px;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(34,197,94,.16), transparent 20%),
+      radial-gradient(circle at 80% 20%, rgba(168,85,247,.16), transparent 22%),
+      radial-gradient(circle at 50% 80%, rgba(14,165,233,.14), transparent 22%);
+    pointer-events:none;
+  }
+  .hero-grid {
+    position:relative;
+    display:grid;
+    grid-template-columns: 1.35fr .85fr;
+    gap: 22px;
+    align-items: center;
+  }
+  .eyebrow {
+    display:inline-flex;
+    gap:10px;
+    align-items:center;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    padding: 8px 12px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background: rgba(255,255,255,.04);
+    margin-bottom: 16px;
+  }
+  h1 {
+    margin:0;
+    font-size: clamp(2.15rem, 5vw, 4.4rem);
+    line-height: 1.02;
+    letter-spacing:-.04em;
+  }
+  h1 .grad {
+    background: linear-gradient(90deg, #fff, #7dd3fc 28%, #c084fc 72%, #22c55e);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .lead {
+    margin: 16px 0 0;
+    max-width: 780px;
+    color: var(--muted);
+    font-size: 1.03rem;
+    line-height: 1.7;
+  }
+  .mini {
+    margin-top:18px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .pill {
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.045);
+    backdrop-filter: blur(12px);
+    padding:10px 14px;
+    border-radius: 999px;
+    color: var(--text);
+    font-size: .92rem;
+  }
+  .side-card {
+    position:relative;
+    border:1px solid var(--line);
+    background: rgba(2, 6, 23, .55);
+    border-radius: 28px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+  .side-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.05rem;
+  }
+  .side-card p, .side-card li {
+    color: var(--muted);
+    line-height:1.6;
+    font-size:.95rem;
+  }
+  .side-card ul {
+    margin: 12px 0 0 18px;
+    padding: 0;
+  }
+
+  .progress {
+    position: sticky;
+    top: 12px;
+    z-index: 20;
+    margin: 16px 0 18px;
+    padding: 14px;
+    border-radius: 999px;
+    border:1px solid var(--line);
+    background: rgba(2, 6, 23, .74);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow);
+  }
+  .progress-row {
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .progress-bar {
+    flex: 1 1 280px;
+    height: 8px;
+    border-radius:999px;
+    background: rgba(255,255,255,.08);
+    overflow:hidden;
+  }
+  .progress-fill {
+    width:0%;
+    height:100%;
+    border-radius:999px;
+    background: linear-gradient(90deg, #22c55e, #38bdf8, #c084fc);
+    transition: width .35s ease;
+  }
+  .stat {
+    min-width: 112px;
+    text-align:center;
+    padding: 4px 8px;
+  }
+  .stat strong {
+    display:block;
+    font-size: 1rem;
+    letter-spacing:.02em;
+  }
+  .stat span {
+    color: var(--muted2);
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing:.12em;
+  }
+
+  .milestones {
+    display:grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin: 18px 0 22px;
+  }
+  .ms {
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.045);
+    backdrop-filter: blur(14px);
+    border-radius: 20px;
+    padding: 16px;
+  }
+  .ms small {
+    display:block;
+    color:var(--muted2);
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:.7rem;
+    margin-bottom: 10px;
+  }
+  .ms strong {
+    display:block;
+    font-size: 1.02rem;
+    margin-bottom: 6px;
+  }
+  .ms em {
+    color: var(--muted);
+    font-style: normal;
+    font-size:.92rem;
+  }
+
+  .phase {
+    margin-bottom: 14px;
+    border-radius: 26px;
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+    box-shadow: var(--shadow);
+    overflow:hidden;
+  }
+  .phase-head {
+    cursor:pointer;
+    display:flex;
+    gap: 14px;
+    align-items:center;
+    padding: 18px 18px;
+    transition: background .18s ease;
+  }
+  .phase-head:hover {
+    background: rgba(255,255,255,.04);
+  }
+  .num {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    display:grid;
+    place-items:center;
+    color: #0b1220;
+    font-weight: 800;
+    flex: 0 0 auto;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .phase-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .phase-info h2 {
+    margin:0;
+    font-size: 1.12rem;
+    letter-spacing:-.02em;
+  }
+  .phase-meta {
+    margin-top: 4px;
+    color: var(--muted2);
+    font-size: .82rem;
+  }
+  .phase-progress {
+    width: 160px;
+    max-width: 28vw;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .pbar {
+    flex:1;
+    height: 6px;
+    border-radius:999px;
+    background: rgba(255,255,255,.08);
+    overflow:hidden;
+  }
+  .pfill {
+    width:0%;
+    height:100%;
+    border-radius:999px;
+    transition: width .3s ease;
+    background: var(--c, #22c55e);
+  }
+  .pct {
+    font-size:.85rem;
+    color: var(--muted);
+    width: 42px;
+    text-align:right;
+    font-variant-numeric: tabular-nums;
+  }
+  .chev {
+    color: var(--muted2);
+    font-size: 1.2rem;
+    transition: transform .22s ease;
+    margin-left: 2px;
+  }
+  .body {
+    display:none;
+    padding: 0 18px 18px;
+  }
+  .body.open { display:block; }
+  .chev.open { transform: rotate(180deg); }
+
+  .grid2 {
+    display:grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 14px;
+    margin-top: 12px;
+  }
+  .box {
+    border: 1px solid var(--line);
+    background: rgba(2, 6, 23, .42);
+    border-radius: 22px;
+    padding: 16px;
+  }
+  .box h4 {
+    margin:0 0 10px;
+    font-size: .94rem;
+    text-transform: uppercase;
+    letter-spacing:.12em;
+    color: var(--muted2);
+  }
+  .skills {
+    display:flex;
+    flex-wrap:wrap;
+    gap: 8px;
+  }
+  .skill {
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.05);
+    padding: 8px 11px;
+    border-radius: 999px;
+    font-size: .88rem;
+    cursor: pointer;
+    user-select: none;
+    transition: .15s ease;
+  }
+  .skill:hover {
+    border-color: rgba(34,197,94,.65);
+    background: rgba(34,197,94,.10);
+  }
+  .skill.done {
+    opacity: .78;
+    text-decoration: line-through;
+    border-color: rgba(34,197,94,.40);
+    background: rgba(34,197,94,.12);
+  }
+  .skill.done::before {
+    content: "✓ ";
+    color: #22c55e;
+    font-weight: 900;
+  }
+  .week {
+    border:1px solid var(--line);
+    border-radius: 18px;
+    overflow:hidden;
+    margin-bottom: 10px;
+    background: rgba(255,255,255,.03);
+  }
+  .week-head {
+    padding: 13px 14px;
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .week-head strong { font-size:.88rem; }
+  .week-head span {
+    color: var(--muted2);
+    font-size: .88rem;
+  }
+  .week-body {
+    display:none;
+    padding: 0 14px 14px;
+  }
+  .week-body.open { display:block; }
+  .day {
+    display:grid;
+    grid-template-columns: 84px 1fr 28px;
+    gap: 12px;
+    align-items:start;
+    padding: 10px 12px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius: 14px;
+    background: rgba(255,255,255,.02);
+    margin-top: 8px;
+  }
+  .day.done {
+    opacity:.72;
+    background: rgba(34,197,94,.09);
+    border-color: rgba(34,197,94,.22);
+  }
+  .day b {
+    font-size:.8rem;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .day p {
+    margin:0;
+    color: var(--text);
+    line-height:1.55;
+    font-size:.94rem;
+  }
+  .check {
+    width: 24px;
+    height: 24px;
+    display:grid;
+    place-items:center;
+    border-radius: 8px;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,.16);
+    color: transparent;
+    transition: .15s ease;
+    background: rgba(255,255,255,.03);
+  }
+  .check:hover {
+    border-color: rgba(34,197,94,.65);
+    background: rgba(34,197,94,.12);
+  }
+  .day.done .check {
+    background: linear-gradient(180deg, #34d399, #22c55e);
+    color: #06210f;
+    border-color: transparent;
+    font-weight: 900;
+  }
+  .proj {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .proj-card {
+    border-left: 4px solid var(--c, #22c55e);
+    border-radius: 18px;
+    background: rgba(255,255,255,.04);
+    padding: 14px 14px 14px 16px;
+  }
+  .proj-card h5 {
+    margin:0 0 6px;
+    font-size: 1rem;
+  }
+  .proj-card p {
+    margin:0 0 10px;
+    color: var(--muted);
+    line-height:1.65;
+    font-size:.93rem;
+  }
+  .proj-card ol {
+    margin:0 0 0 18px;
+    color: var(--text);
+    padding:0;
+  }
+  .proj-card li {
+    margin: 5px 0;
+    line-height:1.5;
+    font-size:.92rem;
+    color: var(--muted);
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+  }
+  .proj-step-mark {
+    width: 20px;
+    height: 20px;
+    display:grid;
+    place-items:center;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,.16);
+    cursor:pointer;
+    background: rgba(255,255,255,.03);
+    color: transparent;
+    flex: 0 0 20px;
+    transition: .15s ease;
+    line-height: 1;
+    font-size: 12px;
+    margin-top: 1px;
+  }
+  .proj-step-mark:hover {
+    border-color: rgba(34,197,94,.65);
+    background: rgba(34,197,94,.12);
+  }
+  .proj-step.done .proj-step-mark {
+    background: linear-gradient(180deg, #34d399, #22c55e);
+    color: #06210f;
+    border-color: transparent;
+    font-weight: 900;
+  }
+  .proj-step.done {
+    opacity: .8;
+    text-decoration: line-through;
+  }
+  .tip {
+    margin-top: 12px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+    padding: 14px 16px;
+    color: var(--muted);
+    line-height:1.65;
+  }
+  .tip strong {
+    display:block;
+    margin-bottom: 6px;
+    color: var(--text);
+    letter-spacing:.08em;
+    text-transform: uppercase;
+    font-size: .74rem;
+  }
+  .footer {
+    margin-top: 22px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: rgba(255,255,255,.04);
+    padding: 18px;
+    color: var(--muted);
+    line-height:1.7;
+  }
+
+  @media (max-width: 980px) {
+    .hero-grid, .grid2 { grid-template-columns: 1fr; }
+    .milestones { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .phase-progress { width: 130px; }
+  }
+  @media (max-width: 680px) {
+    .wrap { padding: 16px 12px 40px; }
+    .hero { padding: 22px 16px; }
+    .phase-head {
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+    .phase-progress {
+      width: 100%;
+      max-width:none;
+      order: 3;
+    }
+    .day { grid-template-columns: 1fr; }
+    .check { justify-self:start; }
+    .milestones { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Alejandro Polo · Data Engineer · Cloud · AI</div>
+          <h1><span class="grad">Diseñado por Alejandro Polo</span><br/>para llegar a Data Engineer</h1>
+          <p class="lead">
+            Este roadmap lo diseñé como mi ruta personal y profesional: fundamentos sólidos, BI, SQL, Python, ingeniería de datos, cloud, gobernanza, streaming e IA.
+            No es una lista genérica de cursos; es mi plan para construir evidencia real, proyectos serios y una base competitiva en el mercado laboral.
+            Cada fase está pensada para demostrar progreso, criterio técnico y preparación real para el mundo laboral.
+          </p>
+          <div class="mini">
+            <div class="pill">Azure como nube principal</div>
+            <div class="pill">AWS como referencia secundaria</div>
+            <div class="pill">Gobernanza y observabilidad al final</div>
+            <div class="pill">Proyecto senior integrador</div>
+          </div>
+        </div>
+        <aside class="side-card">
+          <h3>Mi criterio de diseño</h3>
+          <p>Lo organicé para que se vea ambicioso, pero también ejecutable, con un enfoque claro en datos y crecimiento profesional.</p>
+          <ul>
+            <li>Azure queda como ruta principal por coherencia con Power BI y el ecosistema Microsoft.</li>
+            <li>La nube no compite con los fundamentos; se apoya sobre ellos.</li>
+            <li>La Fase 9 ya no es “solo streaming”: incluye calidad, gobernanza y observabilidad.</li>
+            <li>La Fase 10 queda como capstone senior, con IA aplicada pero sin perder foco de datos.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <div class="progress">
+      <div class="progress-row">
+        <div class="stat"><strong id="statDays">0/0</strong><span>días</span></div>
+        <div class="stat"><strong id="statSkills">0/0</strong><span>skills</span></div>
+        <div class="stat"><strong id="statProjects">0/0</strong><span>proyectos</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="globalFill"></div></div>
+        <div class="stat"><strong id="globalPct">0%</strong><span>avance</span></div>
+      </div>
+    </div>
+
+    <div class="milestones">
+      <div class="ms"><small>Bloque 1</small><strong>Fundamentos duros</strong><em>Semanas 1–13</em></div>
+      <div class="ms"><small>Bloque 2</small><strong>Analítica profesional</strong><em>Semanas 14–24</em></div>
+      <div class="ms"><small>Bloque 3</small><strong>Data engineering y cloud</strong><em>Semanas 25–52</em></div>
+      <div class="ms"><small>Bloque 4</small><strong>Senior track</strong><em>Semanas 53+</em></div>
+    </div>
+
+    <div id="phases"></div>
+
+    
+    <section class="footer" style="margin-top:18px;">
+      <strong style="display:block; color: var(--text); margin-bottom:8px; letter-spacing:.08em; text-transform:uppercase; font-size:.78rem;">Cómo leer cada día</strong>
+      <div>
+        Cada bloque diario ahora trae una versión más explícita: qué tienes que entender, cómo buscarlo, qué practicar y cuál debe ser el resultado esperado.
+        La regla es simple: primero entiendes, luego practicas, después me explicas y al final validamos si ya puedes avanzar.
+      </div>
+    </section>
+
+<section class="footer">
+      <strong style="display:block; color: var(--text); margin-bottom:8px; letter-spacing:.08em; text-transform:uppercase; font-size:.78rem;">Cómo usar esta versión</strong>
+      <div>
+        Mantén una sola nube principal al inicio, termina proyectos completos y publica evidencia. El objetivo es que tu roadmap se vea ambicioso, pero también ejecutable.
+        Esta versión ya trae el equilibrio: base técnica, BI, ingeniería, cloud, calidad, streaming y un proyecto final capaz de venderte mejor.
+      </div>
+    </section>
+  </div>
+
+<script>
+const PHASES = [
+  {
+    "id": "p0",
+    "num": "0",
+    "title": "Preparación profesional y entorno base",
+    "weeks": "Semanas 1–2",
+    "tag": "Setup",
+    "accent": "#22c55e",
+    "skills": [
+      "Git",
+      "GitHub",
+      "VS Code",
+      "Python",
+      "PostgreSQL",
+      "DBeaver",
+      "Power BI Desktop",
+      "Markdown"
+    ],
+    "weeks_detail": [
+      {
+        "label": "SEMANA 1",
+        "title": "Cuenta, perfil y terminal",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Crear GitHub profesional, activar 2FA y dejar un perfil limpio, con foto, bio y enlace a LinkedIn. Divide el trabajo en pasos, construye el resultado final y verifica que funcione. Busca: GitHub profesional, activar 2FA, dejar un perfil limpio, con foto, bio, enlace a LinkedIn. Resultado esperado: entregas algo funcional y ordenado."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Instalar Git y dominar init, add, commit, push, pull y log con un repositorio de prÃ¡ctica. Deja el entorno listo, prueba que todo abra bien y documenta lo que hiciste. Busca: Instalar Git, dominar init, add, commit, push, pull, log con un repositorio de prÃ¡ctica. Resultado esperado: el entorno queda funcional."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Crear el repositorio de portafolio y redactar el README principal con tu identidad profesional. Divide el trabajo en pasos, construye el resultado final y verifica que funcione. Busca: el repositorio de portafolio, redactar el README principal con tu identidad profesional. Resultado esperado: entregas algo funcional y ordenado."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Instalar PostgreSQL y DBeaver, crear tu primera base de datos y ejecutar consultas simples. Deja el entorno listo, prueba que todo abra bien y documenta lo que hiciste. Busca: Instalar PostgreSQL, DBeaver, crear tu primera base de datos, ejecutar consultas simples. Resultado esperado: el entorno queda funcional."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Instalar Python 3.12 y configurar entorno virtual, pip y extensiones esenciales en VS Code. Deja el entorno listo, prueba que todo abra bien y documenta lo que hiciste. Busca: Instalar Python 3.12, configurar entorno virtual, pip, extensiones esenciales en VS Code. Resultado esperado: el entorno queda funcional."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Instalar Power BI Desktop y recorrer su interfaz: informe, datos y modelo. Deja el entorno listo, prueba que todo abra bien y documenta lo que hiciste. Busca: Instalar Power BI Desktop, recorrer su interfaz: informe, datos, modelo. Resultado esperado: el entorno queda funcional."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Hacer commit de toda la estructura inicial y dejar la base lista para avanzar sin fricciÃ³n. Ejecuta la tarea paso a paso y deja evidencia del resultado. Busca: commit de toda la estructura inicial, dejar la base lista para avanzar sin fricciÃ³n. Resultado esperado: cumples el entregable completo."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 2",
+        "title": "Estructura del portafolio",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Practicar ramas y merges en Git con cambios pequeÃ±os y controlados. Repite el proceso con un caso real hasta hacerlo sin mirar apuntes. Busca: ramas, merges en Git con cambios pequeÃ±os, controlados. Resultado esperado: ganas fluidez y menos errores."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: DiseÃ±ar la estructura de carpetas del portafolio: /sql, /python, /bi, /cloud, /ia. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: DiseÃ±ar la estructura de carpetas del portafolio: /sql, /python, /bi, /cloud, /ia. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Construir un README mÃ¡s sÃ³lido con badges, tabla de tecnologÃ­as y roadmap. Divide el trabajo en pasos, construye el resultado final y verifica que funcione. Busca: un README mÃ¡s sÃ³lido con badges, tabla de tecnologÃ­as, roadmap. Resultado esperado: entregas algo funcional y ordenado."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Crear un .gitignore correcto para no subir secretos, caches ni archivos temporales. Divide el trabajo en pasos, construye el resultado final y verifica que funcione. Busca: un .gitignore correcto para no subir secretos, caches ni archivos temporales. Resultado esperado: entregas algo funcional y ordenado."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Preparar un documento ROADMAP.md con tu estrategia de aprendizaje y proyectos. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: un documento ROADMAP.md con tu estrategia de aprendizaje, proyectos. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Configurar GitHub Pages o una documentaciÃ³n simple para mostrar progreso profesional. Deja el entorno listo, prueba que todo abra bien y documenta lo que hiciste. Busca: GitHub Pages o una documentaciÃ³n simple para mostrar progreso profesional. Resultado esperado: el entorno queda funcional."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Publicar la primera actualizaciÃ³n profesional en LinkedIn con tu base de trabajo. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Publicar la primera actualizaciÃ³n profesional en LinkedIn con tu base de trabajo. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Portafolio profesional con GitHub Pages",
+        "desc": "Repositorio limpio, responsive y documentado para mostrar tu base técnica y tu disciplina profesional.",
+        "steps": [
+          "Crear estructura del repo",
+          "Subir index.html y assets",
+          "Redactar README ejecutivo",
+          "Publicar la web y capturas"
+        ]
+      },
+      {
+        "name": "CV interactivo en HTML",
+        "desc": "Versión web de tu perfil con secciones de experiencia, skills y enlaces listos para reclutadores.",
+        "steps": [
+          "Diseñar la estructura",
+          "Agregar secciones clave",
+          "Optimizar lectura móvil",
+          "Dejarlo listo para compartir"
+        ]
+      }
+    ],
+    "case_study": {
+      "dataset": "Documentación interna de tu aprendizaje: repositorios, checklists, commits y progreso semanal.",
+      "context": "Organizar tu entorno profesional como si fueras parte de un equipo de analítica desde el día 1.",
+      "questions": "¿Qué entregables ya tengo?, ¿qué está pendiente?, ¿qué evidencia puedo mostrar al mercado?",
+      "deliverable": "Portafolio base funcional con GitHub Pages, README, estructura clara y navegación simple."
+    },
+    "tip": "Primero construyes el sistema de trabajo; después construyes la carrera."
+  },
+  {
+    "id": "p1",
+    "num": "1",
+    "title": "Excel para análisis de negocio",
+    "weeks": "Semanas 3–6",
+    "tag": "Análisis",
+    "accent": "#10b981",
+    "skills": [
+      "Tablas estructuradas",
+      "SI / SI.CONJUNTO",
+      "SUMAR.SI.CONJUNTO",
+      "BUSCARX",
+      "Tablas dinámicas",
+      "Segmentadores",
+      "Dashboards",
+      "Formato condicional"
+    ],
+    "weeks_detail": [
+      {
+        "label": "SEMANA 3",
+        "title": "Fundamentos y fórmulas lógicas",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Entender celdas, filas, columnas, tipos de dato y atajos de teclado que aceleran el trabajo.<br><strong>En simple:</strong> Una hoja de Excel se organiza en filas y columnas; cada cruce es una celda. Los tipos de dato te dicen si trabajas con texto, números, fechas o fórmulas.<br><strong>Ejemplo:</strong> Ejemplo: en A1 pones 'ventas', en A2 una fecha y en A3 un número; así distingues texto, fecha y valor numérico.<br><strong>Qué buscar:</strong> celdas, filas, columnas, tipos de dato, atajos de teclado que aceleran el trabajo<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Convertir rangos a tablas estructuradas y usar referencias limpias y dinÃ¡micas.<br><strong>En simple:</strong> Una tabla estructurada hace que tus datos crezcan sin romper fórmulas; las referencias dinámicas te evitan rehacer todo cada vez que agregas filas.<br><strong>Ejemplo:</strong> Ejemplo: conviertes A1:D50 en tabla para que una fórmula nueva se copie sola cuando agregas filas.<br><strong>Qué buscar:</strong> rangos a tablas estructuradas, usar referencias limpias, dinÃ¡micas<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Clasificar informaciÃ³n con SI y SI.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> informaciÃ³n con SI, SI.CONJUNTO usando casos reales<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Aplicar formato condicional para convertir nÃºmeros en patrones visibles.<br><strong>En simple:</strong> El formato condicional resalta patrones, alertas y valores importantes para que veas rápido lo que está pasando sin leer toda la tabla.<br><strong>Ejemplo:</strong> Ejemplo: marcar en rojo las ventas menores a la meta y en verde las que la superan.<br><strong>Qué buscar:</strong> formato condicional para convertir nÃºmeros en patrones visibles<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Construir pequeñas métricas sobre ventas, costos y márgenes.<br><strong>En simple:</strong> Las funciones de agregación resumen muchos registros en una sola cifra: ventas totales, conteos, promedios o márgenes.<br><strong>Ejemplo:</strong> Ejemplo: sumar ventas por región o contar cuántos pedidos están pendientes.<br><strong>Qué buscar:</strong> pequeñas métricas sobre ventas, costos, márgenes<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Repasar conceptos y documentar los hallazgos en un archivo ordenado.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Repasar conceptos, documentar los hallazgos en un archivo ordenado<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Resolver un mini caso de negocio de principio a fin sin mirar apuntes.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> un mini caso de negocio de principio a fin sin mirar apuntes<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 4",
+        "title": "Cruce y agregación",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Usar SUMAR.<br><strong>En simple:</strong> Las funciones de agregación resumen muchos registros en una sola cifra: ventas totales, conteos, promedios o márgenes.<br><strong>Ejemplo:</strong> Ejemplo: sumar ventas por región o contar cuántos pedidos están pendientes.<br><strong>Qué buscar:</strong> SUMAR.SI, CONTAR.SI para obtener resÃºmenes rÃ¡pidos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Pasar a SUMAR.<br><strong>En simple:</strong> Las funciones de agregación resumen muchos registros en una sola cifra: ventas totales, conteos, promedios o márgenes.<br><strong>Ejemplo:</strong> Ejemplo: sumar ventas por región o contar cuántos pedidos están pendientes.<br><strong>Qué buscar:</strong> Pasar a SUMAR.SI.CONJUNTO, PROMEDIO.SI.CONJUNTO con mÃºltiples criterios<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Aplicar BUSCARV y luego migrar a BUSCARX para trabajar con mÃ¡s elegancia.<br><strong>En simple:</strong> Estas funciones te ayudan a traer información de otra tabla usando una clave común, como un código de cliente o producto.<br><strong>Ejemplo:</strong> Ejemplo: con un código de cliente traes su nombre, ciudad o segmento desde otra tabla.<br><strong>Qué buscar:</strong> BUSCARV, luego migrar a BUSCARX para trabajar con mÃ¡s elegancia<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Cruzar dos tablas y validar errores de datos de forma manual.<br><strong>En simple:</strong> Estas funciones te ayudan a traer información de otra tabla usando una clave común, como un código de cliente o producto.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Cruzar dos tablas, validar errores de datos de forma manual<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Combinar fÃ³rmulas para indicadores ejecutivos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Combinar fÃ³rmulas para indicadores ejecutivos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Crear una hoja de indicadores con métricas comparables.<br><strong>En simple:</strong> Las funciones de agregación resumen muchos registros en una sola cifra: ventas totales, conteos, promedios o márgenes.<br><strong>Ejemplo:</strong> Ejemplo: sumar ventas por región o contar cuántos pedidos están pendientes.<br><strong>Qué buscar:</strong> una hoja de indicadores con métricas comparables<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Revisar el caso completo y dejarlo limpio para reutilizarlo despuÃ©s.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> el caso completo, dejarlo limpio para reutilizarlo despuÃ©s<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 5",
+        "title": "Tablas dinámicas y gráficos",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Crear la primera tabla dinámica y entender filas, columnas, valores y filtros.<br><strong>En simple:</strong> Una tabla dinámica resume y cruza datos sin escribir fórmulas largas; sirve para ver ventas por mes, región o producto en segundos.<br><strong>Ejemplo:</strong> Ejemplo: ver ventas por mes y por vendedor sin escribir fórmulas largas.<br><strong>Qué buscar:</strong> la primera tabla dinámica, entender filas, columnas, valores, filtros<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Agrupar por mes, categorÃ­a y regiÃ³n con distintas perspectivas de negocio.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Agrupar por mes, categorÃ­a, regiÃ³n con distintas perspectivas de negocio<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Usar campos calculados y mostrar valores como porcentaje del total.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> campos calculados, mostrar valores como porcentaje del total<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Crear gráficos dinámicos y probar varios formatos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> gráficos dinámicos, probar varios formatos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Agregar segmentadores y conectarlos a distintos informes.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> segmentadores, conectarlos a distintos informes<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Armar un reporte de 3 vistas para el mismo dataset.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> un reporte de 3 vistas para el mismo dataset<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Guardar el archivo con una estructura lista para presentaciÃ³n profesional.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> el archivo con una estructura lista para presentaciÃ³n profesional<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 6",
+        "title": "Dashboard ejecutivo",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Definir KPIs antes de construir el tablero; primero se diseÃ±a, luego se ejecuta.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Definir KPIs antes de construir el tablero; primero se diseÃ±a, luego se ejecuta<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Separar hojas de datos, cÃ¡lculos y visualizaciÃ³n para evitar caos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Separar hojas de datos, cÃ¡lculos, visualizaciÃ³n para evitar caos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Construir tarjetas KPI limpias y consistentes.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> tarjetas KPI limpias, consistentes<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: AÃ±adir grÃ¡ficos, segmentadores y una lÃ­nea de tiempo si aplica.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> AÃ±adir grÃ¡ficos, segmentadores, una lÃ­nea de tiempo si aplica<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Unificar colores, alinear elementos y eliminar ruido visual.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Unificar colores, alinear elementos, eliminar ruido visual<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Exportar una captura o video corto del dashboard.<br><strong>En simple:</strong> Un dashboard junta KPIs y visuales clave en una sola vista para tomar decisiones rápido.<br><strong>Ejemplo:</strong> Ejemplo: una portada con ventas, margen, crecimiento y un filtro por región.<br><strong>Qué buscar:</strong> Exportar una captura o video corto del dashboard<br><strong>Resultado esperado:</strong> Puedes construir un visual claro que responda una pregunta de negocio."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Subir el proyecto a GitHub con README claro y enfoque de negocio.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Subir el proyecto a GitHub con README claro, enfoque de negocio<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Dashboard ejecutivo de ventas y margen",
+        "desc": "Análisis de ventas por canal, región y producto con foco en KPIs, rentabilidad y decisiones de negocio.",
+        "steps": [
+          "Definir KPIs comerciales",
+          "Limpiar una base de ventas",
+          "Construir tablas dinámicas y gráficos",
+          "Exportar un reporte ejecutivo"
+        ]
+      },
+      {
+        "name": "Análisis de desempeño comercial",
+        "desc": "Evaluación de metas, ticket promedio, crecimiento mensual y productos estrella para un gerente comercial.",
+        "steps": [
+          "Estructurar el dataset",
+          "Calcular métricas clave",
+          "Comparar periodos",
+          "Redactar hallazgos accionables"
+        ]
+      }
+    ],
+    "case_study": {
+      "dataset": "Ventas retail de 12 meses con columnas de fecha, canal, categoría, ciudad, vendedor, unidades, ingresos y margen.",
+      "context": "La gerencia quiere entender qué productos impulsan ingresos y dónde se está perdiendo rentabilidad.",
+      "questions": "¿Qué canal vende más?, ¿qué región tiene mejor margen?, ¿qué categorías crecen o caen?",
+      "deliverable": "Dashboard de ventas con KPIs, segmentadores y conclusiones ejecutivas."
+    },
+    "tip": "Excel te entrena para pensar en métricas, dimensión y narrativa de negocio."
+  },
+  {
+    "id": "p2",
+    "num": "2",
+    "title": "Power Query y mentalidad ETL",
+    "weeks": "Semanas 7–8",
+    "tag": "ETL",
+    "accent": "#f59e0b",
+    "skills": [
+      "Power Query",
+      "Merge",
+      "Append",
+      "Unpivot",
+      "Limpiar datos",
+      "Tipos de datos",
+      "Consultas",
+      "Automatización"
+    ],
+    "weeks_detail": [
+      {
+        "label": "SEMANA 7",
+        "title": "Extracción y limpieza",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Entender el flujo ETL y por quÃ© los datos reales nunca llegan limpios.<br><strong>En simple:</strong> Power Query te enseña el flujo ETL: extraer datos, limpiarlos y dejarlos listos para análisis sin hacerlo a mano cada vez.<br><strong>Ejemplo:</strong> Ejemplo: tomar tres archivos con nombres distintos, unirlos y dejar una sola tabla lista para análisis.<br><strong>Qué buscar:</strong> el flujo ETL, por quÃ© los datos reales nunca llegan limpios<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Conectar a CSV, Excel y otras fuentes para revisar problemas tÃ­picos.<br><strong>En simple:</strong> Conectar fuentes es el primer paso para revisar qué datos llegan, en qué formato y qué problemas traen.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Conectar a CSV, Excel, otras fuentes para revisar problemas tÃ­picos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Corregir tipos de datos y eliminar filas o columnas inÃºtiles.<br><strong>En simple:</strong> Una hoja de Excel se organiza en filas y columnas; cada cruce es una celda. Los tipos de dato te dicen si trabajas con texto, números, fechas o fórmulas.<br><strong>Ejemplo:</strong> Ejemplo: en A1 pones 'ventas', en A2 una fecha y en A3 un número; así distingues texto, fecha y valor numérico.<br><strong>Qué buscar:</strong> Corregir tipos de datos, eliminar filas o columnas inÃºtiles<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Recortar espacios, estandarizar texto y separar columnas.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Recortar espacios, estandarizar texto, separar columnas<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Rellenar hacia abajo y normalizar datos mal estructurados.<br><strong>En simple:</strong> Las distribuciones te muestran cómo se reparte la información; la normal es una de las más comunes en análisis.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Rellenar hacia abajo, normalizar datos mal estructurados<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Usar Unpivot para pasar de formato ancho a formato largo.<br><strong>En simple:</strong> Unpivot convierte datos anchos en datos largos, que suelen ser más fáciles de analizar y modelar.<br><strong>Ejemplo:</strong> Ejemplo: convertir columnas Ene, Feb y Mar en una sola columna de meses.<br><strong>Qué buscar:</strong> Unpivot para pasar de formato ancho a formato largo<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Documentar cada paso aplicado dentro de la consulta.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> cada paso aplicado dentro de la consulta<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 8",
+        "title": "Merge, append y automatización",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Unir tablas con Append y Merge segÃºn el caso.<br><strong>En simple:</strong> Merge une tablas por una clave; Append apila tablas con la misma estructura.<br><strong>Ejemplo:</strong> Ejemplo: unir ventas con clientes por id_cliente para agregar información del cliente al registro.<br><strong>Qué buscar:</strong> tablas con Append, Merge segÃºn el caso<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Aplicar columnas condicionales para reglas de negocio simples.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> columnas condicionales para reglas de negocio simples<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Crear consultas reutilizables con lógica ordenada.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> consultas reutilizables con lógica ordenada<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Refrescar datos con un clic y evitar tareas manuales repetitivas.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> datos con un clic, evitar tareas manuales repetitivas<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Simular un pequeÃ±o pipeline de limpieza de varias fuentes.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> un pequeÃ±o pipeline de limpieza de varias fuentes<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Exportar el resultado final con trazabilidad.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Exportar el resultado final con trazabilidad<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Escribir un README que explique el proceso de transformaciÃ³n.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> un README que explique el proceso de transformaciÃ³n<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "ETL multi-fuente automatizado",
+        "desc": "Proceso de limpieza y unificación de datos de ventas y CRM para dejar una base lista para análisis.",
+        "steps": [
+          "Conectar fuentes",
+          "Limpiar y normalizar",
+          "Unificar tablas",
+          "Documentar el flujo ETL"
+        ]
+      },
+      {
+        "name": "Pipeline de calidad de datos",
+        "desc": "Flujo que detecta nulos, formatos inválidos y duplicados antes de cargar información al modelo final.",
+        "steps": [
+          "Definir reglas de calidad",
+          "Aplicar transformaciones",
+          "Validar consistencia",
+          "Registrar resultados"
+        ]
+      }
+    ],
+    "case_study": {
+      "dataset": "CRM y ventas en archivos separados: leads, clientes, oportunidades y conversiones en formatos heterogéneos.",
+      "context": "Los datos llegan desordenados desde varias áreas y el analista necesita consolidarlos rápido sin romper trazabilidad.",
+      "questions": "¿Qué columnas sobran?, ¿qué tipos están mal?, ¿qué registros duplicados afectan el análisis?",
+      "deliverable": "Pipeline limpio en Power Query con datos normalizados y lista final lista para BI."
+    },
+    "tip": "Power Query te enseña a pensar como ingeniero, no solo como usuario de Excel."
+  },
+  {
+    "id": "p3",
+    "num": "3",
+    "title": "Power BI y DAX profesional",
+    "weeks": "Semanas 9–13",
+    "tag": "BI",
+    "accent": "#a855f7",
+    "skills": [
+      "Modelo estrella",
+      "DAX",
+      "CALCULATE",
+      "Time Intelligence",
+      "RANKX",
+      "RLS",
+      "Power BI Service",
+      "Storytelling"
+    ],
+    "weeks_detail": [
+      {
+        "label": "SEMANA 9",
+        "title": "Modelo y relaciones",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Entender el modelo estrella y cuÃ¡ndo una relaciÃ³n estÃ¡ bien diseÃ±ada.<br><strong>En simple:</strong> El modelo estrella separa hechos y dimensiones para que el reporte sea más rápido, limpio y fácil de medir.<br><strong>Ejemplo:</strong> Ejemplo: una tabla de ventas conectada a dimensiones de cliente, producto y fecha.<br><strong>Qué buscar:</strong> el modelo estrella, cuÃ¡ndo una relaciÃ³n estÃ¡ bien diseÃ±ada<br><strong>Resultado esperado:</strong> Puedes explicar por qué un modelo está bien diseñado o no."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Importar tablas limpias y revisar calidad del modelo.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> tablas limpias, revisar calidad del modelo<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Aprender a separar hechos y dimensiones.<br><strong>En simple:</strong> Las tablas de hechos guardan eventos o números; las dimensiones guardan contexto como cliente, fecha o producto.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> a separar hechos, dimensiones<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Construir primeras medidas simples en DAX.<br><strong>En simple:</strong> Las medidas en DAX calculan KPIs sobre la marcha según los filtros y el contexto del reporte.<br><strong>Ejemplo:</strong> Ejemplo: crear ventas totales, margen y porcentaje de participación.<br><strong>Qué buscar:</strong> primeras medidas simples en DAX<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Comparar columnas calculadas versus medidas.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> columnas calculadas versus medidas<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Agregar filtros y revisar su impacto.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> filtros, revisar su impacto<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Escribir notas sobre diseÃ±o correcto de modelos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> notas sobre diseÃ±o correcto de modelos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 10",
+        "title": "DAX esencial",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Trabajar con CALCULATE y FILTER como base del anÃ¡lisis.<br><strong>En simple:</strong> CALCULATE cambia el contexto del cálculo y FILTER te deja filtrar filas con lógica personalizada.<br><strong>Ejemplo:</strong> Ejemplo: ventas del año actual filtradas solo para una región o categoría.<br><strong>Qué buscar:</strong> Trabajar con CALCULATE, FILTER como base del anÃ¡lisis<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Dominar agregaciones y contexto de filtro.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> agregaciones, contexto de filtro<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Aprender Time Intelligence para comparar periodos.<br><strong>En simple:</strong> Time Intelligence sirve para comparar periodos: mes actual, mes anterior, año contra año y acumulados.<br><strong>Ejemplo:</strong> Ejemplo: ventas de este mes vs el mismo mes del año pasado.<br><strong>Qué buscar:</strong> Time Intelligence para comparar periodos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Construir rankings y top N con RANKX.<br><strong>En simple:</strong> RANKX te permite ordenar elementos por desempeño: top ventas, top clientes o top productos.<br><strong>Ejemplo:</strong> Ejemplo: ranking de vendedores por ventas totales.<br><strong>Qué buscar:</strong> rankings, top N con RANKX<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Crear medidas para ventas, margen, crecimiento y participación.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> medidas para ventas, margen, crecimiento, participación<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Validar resultados cruzando contra Excel o SQL.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> resultados cruzando contra Excel o SQL<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Documentar cada medida como si fuera producto de negocio.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> cada medida como si fuera producto de negocio<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 11",
+        "title": "Visualización y narrativa",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: DiseÃ±ar pÃ¡ginas limpias y jerarquÃ­a visual clara.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> DiseÃ±ar pÃ¡ginas limpias, jerarquÃ­a visual clara<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Elegir grÃ¡ficos por intenciÃ³n, no por estÃ©tica.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Elegir grÃ¡ficos por intenciÃ³n, no por estÃ©tica<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Usar tarjetas, matrices y segmentadores con criterio.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> tarjetas, matrices, segmentadores con criterio<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Construir una historia con inicio, hallazgo y cierre.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> una historia con inicio, hallazgo, cierre<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Aplicar reglas de color y consistencia visual.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> reglas de color, consistencia visual<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Agregar interacciÃ³n entre pÃ¡ginas si aporta valor.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> interacciÃ³n entre pÃ¡ginas si aporta valor<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Revisar el reporte como lo verÃ­a un gerente.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> el reporte como lo verÃ­a un gerente<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 12",
+        "title": "Seguridad y publicación",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Configurar RLS para controlar acceso por rol.<br><strong>En simple:</strong> RLS controla qué ve cada usuario según su rol, algo muy útil cuando publicas reportes para varias áreas.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> RLS para controlar acceso por rol<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Publicar en Power BI Service y entender el ciclo de actualizaciÃ³n.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Publicar en Power BI Service, entender el ciclo de actualizaciÃ³n<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Organizar el workspace como un profesional.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Organizar el workspace como un profesional<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Preparar una versiÃ³n presentable del reporte.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> una versiÃ³n presentable del reporte<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Documentar supuestos y limitaciones.<br><strong>En simple:</strong> La regresión busca explicar o predecir una variable a partir de otras, revisando si el modelo realmente tiene sentido.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> supuestos, limitaciones<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Probar la navegaciÃ³n desde el portal.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> la navegaciÃ³n desde el portal<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Corregir detalles antes de mostrarlo pÃºblicamente.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Corregir detalles antes de mostrarlo pÃºblicamente<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 13",
+        "title": "Proyecto y cierre",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Construir un análisis de cohortes o retención real.<br><strong>En simple:</strong> El análisis de cohortes te ayuda a ver cómo se comportan grupos de usuarios o clientes a lo largo del tiempo.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> un análisis de cohortes o retención real<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Revisar mÃ©tricas clave como churn, LTV o ingresos recurrentes.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> mÃ©tricas clave como churn, LTV o ingresos recurrentes<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Pulir el diseÃ±o y la historia del dashboard.<br><strong>En simple:</strong> Un dashboard junta KPIs y visuales clave en una sola vista para tomar decisiones rápido.<br><strong>Ejemplo:</strong> Ejemplo: una portada con ventas, margen, crecimiento y un filtro por región.<br><strong>Qué buscar:</strong> Pulir el diseÃ±o, la historia del dashboard<br><strong>Resultado esperado:</strong> Puedes construir un visual claro que responda una pregunta de negocio."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Grabar un demo corto explicando el valor del reporte.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Grabar un demo corto explicando el valor del reporte<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Subir el archivo y el README a GitHub.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Subir el archivo, el README a GitHub<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Prepararte para una certificaciÃ³n como PL-300.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Prepararte para una certificaciÃ³n como PL-300<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Cerrar la fase con evidencia pÃºblica de trabajo profesional.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Cerrar la fase con evidencia pÃºblica de trabajo profesional<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Dashboard de cohortes y retención",
+        "desc": "Reporte profesional para medir retención, churn, recurrencia y comportamiento por cohortes.",
+        "steps": [
+          "Diseñar el modelo estrella",
+          "Crear medidas DAX",
+          "Construir páginas ejecutivas",
+          "Publicar demo y documentación"
+        ]
+      },
+      {
+        "name": "Análisis de churn y expansión",
+        "desc": "Evaluación de clientes que se van, clientes que aumentan consumo y oportunidades de crecimiento.",
+        "steps": [
+          "Definir cohortes",
+          "Calcular churn y retención",
+          "Comparar segmentos",
+          "Escribir recomendaciones"
+        ]
+      }
+    ],
+    "case_study": {
+      "dataset": "Suscripciones mensuales de una plataforma con fecha de alta, renovación, cancelación, plan y uso.",
+      "context": "El equipo directivo quiere saber si la retención está mejorando y qué segmentos se están perdiendo.",
+      "questions": "¿Qué cohorte retiene mejor?, ¿qué plan cancela más?, ¿dónde está el mayor churn?",
+      "deliverable": "Dashboard en Power BI con modelo limpio, DAX sólido y narrativa ejecutiva."
+    },
+    "tip": "Power BI te acerca al lenguaje de negocio; DAX te separa del usuario promedio."
+  },
+  {
+    "id": "p4",
+    "num": "4",
+    "title": "SQL de élite",
+    "weeks": "Semanas 14–19",
+    "tag": "SQL",
+    "accent": "#ef4444",
+    "skills": [
+      "SELECT",
+      "JOIN",
+      "CTE",
+      "Window functions",
+      "Índices",
+      "Query tuning",
+      "Vistas",
+      "EXPLAIN"
+    ],
+    "weeks_detail": [
+      {
+        "label": "SEMANA 14",
+        "title": "Consultas base",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Dominar SELECT, WHERE, ORDER BY y LIMIT.<br><strong>En simple:</strong> SELECT elige columnas, FROM indica la tabla, WHERE filtra filas, ORDER BY ordena y LIMIT recorta resultados.<br><strong>Ejemplo:</strong> Ejemplo: SELECT nombre, ventas FROM pedidos WHERE ventas > 1000 ORDER BY ventas DESC LIMIT 10;<br><strong>Qué buscar:</strong> SELECT, WHERE, ORDER BY, LIMIT<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Practicar GROUP BY, HAVING y agregaciones.<br><strong>En simple:</strong> GROUP BY agrupa filas por categoría y HAVING filtra esos grupos después de agregarlos.<br><strong>Ejemplo:</strong> Ejemplo: ventas por ciudad o por producto usando SUM y COUNT.<br><strong>Qué buscar:</strong> GROUP BY, HAVING, agregaciones<br><strong>Resultado esperado:</strong> Puedes resumir información por categoría sin perderte entre las filas."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Entender alias, operadores y funciones.<br><strong>En simple:</strong> Los alias hacen más legible la consulta, los operadores comparan valores y las funciones transforman o calculan datos.<br><strong>Ejemplo:</strong> Ejemplo: SELECT ventas AS total_ventas, precio * cantidad AS ingreso.<br><strong>Qué buscar:</strong> alias, operadores, funciones<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Construir consultas limpias y legibles.<br><strong>En simple:</strong> Una consulta limpia se lee por bloques: primero entiendes qué trae, luego cómo filtra y después cómo calcula.<br><strong>Ejemplo:</strong> Ejemplo: primero seleccionas, luego filtras y al final ordenas, en lugar de mezclar todo sin orden.<br><strong>Qué buscar:</strong> consultas limpias, legibles<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Usar subqueries cuando tenga sentido.<br><strong>En simple:</strong> Una consulta limpia se lee por bloques: primero entiendes qué trae, luego cómo filtra y después cómo calcula.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> subqueries cuando tenga sentido<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Analizar errores de sintaxis sin frustrarte.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Analizar errores de sintaxis sin frustrarte<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Resolver ejercicios diarios con disciplina.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> ejercicios diarios con disciplina<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 15",
+        "title": "JOINs y modelado",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Entender INNER, LEFT, RIGHT y FULL JOIN.<br><strong>En simple:</strong> Los JOIN combinan tablas relacionadas; la diferencia está en qué filas conservas cuando no hay coincidencias.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> INNER, LEFT, RIGHT, FULL JOIN<br><strong>Resultado esperado:</strong> Puedes unir tablas y entender qué información conserva cada tipo de JOIN."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Cruzar tablas sin perder integridad de datos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Cruzar tablas sin perder integridad de datos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Identificar claves y relaciones.<br><strong>En simple:</strong> Las claves conectan tablas entre sí; si eliges mal la clave, duplicas o pierdes información.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Identificar claves, relaciones<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Evitar duplicados por joins mal pensados.<br><strong>En simple:</strong> Los JOIN combinan tablas relacionadas; la diferencia está en qué filas conservas cuando no hay coincidencias.<br><strong>Ejemplo:</strong> Ejemplo: unir pedidos con clientes para ver nombre, ciudad y total en la misma consulta.<br><strong>Qué buscar:</strong> Evitar duplicados por joins mal pensados<br><strong>Resultado esperado:</strong> Puedes unir tablas y entender qué información conserva cada tipo de JOIN."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Documentar patrones comunes.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> patrones comunes<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Practicar casos de negocio con varias tablas.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> casos de negocio con varias tablas<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Comparar resultados con otras herramientas.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> resultados con otras herramientas<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 16",
+        "title": "CTE y ventanas",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Usar CTE para ordenar consultas complejas.<br><strong>En simple:</strong> Una CTE ordena consultas largas por pasos, y las funciones de ventana calculan sobre un conjunto sin perder el detalle de cada fila.<br><strong>Ejemplo:</strong> Ejemplo: una CTE que primero limpia datos y luego otra parte que calcula el ranking.<br><strong>Qué buscar:</strong> CTE para ordenar consultas complejas<br><strong>Resultado esperado:</strong> Puedes ordenar consultas complejas por pasos y usar ventanas para análisis más potentes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Dominar ROW_NUMBER, RANK, LAG y LEAD.<br><strong>En simple:</strong> Estas funciones de ventana te dejan numerar, comparar filas anteriores o siguientes y construir rankings o análisis de secuencia.<br><strong>Ejemplo:</strong> Ejemplo: numerar pedidos por fecha y comparar la venta actual con la anterior.<br><strong>Qué buscar:</strong> ROW_NUMBER, RANK, LAG, LEAD<br><strong>Resultado esperado:</strong> Puedes ordenar consultas complejas por pasos y usar ventanas para análisis más potentes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Resolver rankings, acumulados y series de tiempo.<br><strong>En simple:</strong> RANKX te permite ordenar elementos por desempeño: top ventas, top clientes o top productos.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> rankings, acumulados, series de tiempo<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Crear consultas recursivas si el caso lo pide.<br><strong>En simple:</strong> Las consultas recursivas sirven para jerarquías, árboles o procesos que se repiten por niveles.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> consultas recursivas si el caso lo pide<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Pensar en pasos de transformaciÃ³n dentro de SQL.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> en pasos de transformaciÃ³n dentro de SQL<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Mejorar legibilidad y mantenimiento.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Mejorar legibilidad, mantenimiento<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Hacer ejercicios tipo entrevista.<br><strong>En simple:</strong> La meta es contestar consultas sin titubear y explicar tu lógica con claridad.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> ejercicios tipo entrevista<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 17",
+        "title": "Optimización",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Entender Ã­ndices y cuÃ¡ndo ayudan.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Ã­ndices, cuÃ¡ndo ayudan<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Leer un plan de ejecuciÃ³n con EXPLAIN.<br><strong>En simple:</strong> La optimización busca que la base responda rápido: índices, planes de ejecución y mejor diseño de consulta reducen el costo.<br><strong>Ejemplo:</strong> Ejemplo: comparar una consulta con y sin índice para ver cuál responde más rápido.<br><strong>Qué buscar:</strong> Leer un plan de ejecuciÃ³n con EXPLAIN<br><strong>Resultado esperado:</strong> Sabes leer por qué una consulta tarda y qué cambiar para mejorarla."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Detectar cuellos de botella en consultas pesadas.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Detectar cuellos de botella en consultas pesadas<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Comparar consultas equivalentes y elegir la mÃ¡s eficiente.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> consultas equivalentes, elegir la mÃ¡s eficiente<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Aprender particiones y materialized views como concepto.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> particiones, materialized views como concepto<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Revisar buenas prÃ¡cticas de performance.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> buenas prÃ¡cticas de performance<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Escribir notas sobre problemas y soluciones.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> notas sobre problemas, soluciones<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 18",
+        "title": "Casos de negocio",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Resolver funnels de conversiÃ³n de principio a fin.<br><strong>En simple:</strong> Aquí SQL se usa para responder preguntas de negocio: conversión, retención, recurrencia, ingresos y comportamiento de usuarios.<br><strong>Ejemplo:</strong> Ejemplo: usuarios que visitan, agregan al carrito y finalmente compran.<br><strong>Qué buscar:</strong> funnels de conversiÃ³n de principio a fin<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Hacer análisis de retención y recurrencia.<br><strong>En simple:</strong> El análisis de cohortes te ayuda a ver cómo se comportan grupos de usuarios o clientes a lo largo del tiempo.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> análisis de retención, recurrencia<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Construir métricas para ecommerce o SaaS.<br><strong>En simple:</strong> Las funciones de agregación resumen muchos registros en una sola cifra: ventas totales, conteos, promedios o márgenes.<br><strong>Ejemplo:</strong> Ejemplo: sumar ventas por región o contar cuántos pedidos están pendientes.<br><strong>Qué buscar:</strong> métricas para ecommerce o SaaS<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Combinar SQL con narrativas claras.<br><strong>En simple:</strong> Aquí aprendes a elegir gráficos con intención: cada visual debe responder una pregunta de negocio.<br><strong>Ejemplo:</strong> Ejemplo: un gráfico de línea para tendencia y una barra para comparar categorías.<br><strong>Qué buscar:</strong> Combinar SQL con narrativas claras<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Validar resultados con datos reales o simulados.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> resultados con datos reales o simulados<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Pulir consultas para que sean fÃ¡ciles de leer.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Pulir consultas para que sean fÃ¡ciles de leer<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Guardar tu colecciÃ³n de soluciones como portfolio.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> tu colecciÃ³n de soluciones como portfolio<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 19",
+        "title": "Entrevista técnica",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Resolver problemas sin ayuda externa.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> problemas sin ayuda externa<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Revisar ejercicios difÃ­ciles y patrones repetidos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> ejercicios difÃ­ciles, patrones repetidos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Simular preguntas de entrevista.<br><strong>En simple:</strong> La meta es contestar consultas sin titubear y explicar tu lógica con claridad.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> preguntas de entrevista<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Explicar tu razonamiento en voz alta.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Explicar tu razonamiento en voz alta<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Identificar errores comunes y cÃ³mo evitarlos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Identificar errores comunes, cÃ³mo evitarlos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Crear un repositorio público de práctica.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> un repositorio público de práctica<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Cerrar la fase con 50+ ejercicios resueltos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Cerrar la fase con 50+ ejercicios resueltos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Funnel de conversión ecommerce",
+        "desc": "Análisis SQL completo de visitas, carritos, pagos y ventas para encontrar fugas en el funnel.",
+        "steps": [
+          "Diseñar el esquema",
+          "Escribir consultas con joins y CTE",
+          "Medir conversión por etapa",
+          "Documentar hallazgos"
+        ]
+      },
+      {
+        "name": "Cohortes, LTV y revenue analytics",
+        "desc": "Proyecto de SQL para clientes recurrentes, valor de vida del cliente e ingresos por periodo.",
+        "steps": [
+          "Construir cohortes",
+          "Calcular LTV",
+          "Analizar recurrencia",
+          "Optimizar consultas"
+        ]
+      }
+    ],
+    "case_study": {
+      "dataset": "Base transaccional de ecommerce: clientes, pedidos, productos, estados de pago, devoluciones y tiempos de entrega.",
+      "context": "La empresa quiere entender dónde pierde conversiones y cómo mejorar ingresos sin aumentar gasto publicitario.",
+      "questions": "¿Cuánto se convierte por etapa?, ¿qué categorías generan más LTV?, ¿qué clientes repiten más?",
+      "deliverable": "Colección de queries SQL listas para entrevista y análisis de negocio."
+    },
+    "tip": "SQL es el idioma base de la ingeniería de datos; aquí se gana credibilidad real."
+  },
+  {
+    "id": "p5",
+    "num": "5",
+    "title": "Estadística aplicada y experimentación",
+    "weeks": "Semanas 20–24",
+    "tag": "Stats",
+    "accent": "#3b82f6",
+    "skills": [
+      "Descriptiva",
+      "Inferencia",
+      "A/B testing",
+      "Regresión",
+      "Distribuciones",
+      "Intervalos de confianza",
+      "Hipótesis",
+      "EDA"
+    ],
+    "weeks_detail": [
+      {
+        "label": "SEMANA 20",
+        "title": "Descriptiva",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Entender media, mediana, moda y dispersiÃ³n.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> media, mediana, moda, dispersiÃ³n<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Interpretar varianza, desviaciÃ³n estÃ¡ndar e IQR.<br><strong>En simple:</strong> Estas métricas te dicen cuánto se alejan los datos del centro y ayudan a detectar variabilidad o casos raros.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Interpretar varianza, desviaciÃ³n estÃ¡ndar e IQR<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Visualizar distribuciones y detectar sesgos.<br><strong>En simple:</strong> Las distribuciones te muestran cómo se reparte la información; la normal es una de las más comunes en análisis.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Visualizar distribuciones, detectar sesgos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Resumir datos con sentido de negocio.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Resumir datos con sentido de negocio<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Practicar lectura crítica de métricas.<br><strong>En simple:</strong> Las funciones de agregación resumen muchos registros en una sola cifra: ventas totales, conteos, promedios o márgenes.<br><strong>Ejemplo:</strong> Ejemplo: sumar ventas por región o contar cuántos pedidos están pendientes.<br><strong>Qué buscar:</strong> lectura crítica de métricas<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Usar Python para automatizar cÃ¡lculos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Python para automatizar cÃ¡lculos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Escribir conclusiones simples y claras.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> conclusiones simples, claras<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 21",
+        "title": "Probabilidad e inferencia",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Reforzar distribuciones comunes y sus usos.<br><strong>En simple:</strong> Las distribuciones te muestran cómo se reparte la información; la normal es una de las más comunes en análisis.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Reforzar distribuciones comunes, sus usos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Entender pruebas de hipÃ³tesis.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> pruebas de hipÃ³tesis<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Interpretar p-value sin mitos.<br><strong>En simple:</strong> La inferencia te ayuda a decidir con evidencia usando muestras, no toda la población.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Interpretar p-value sin mitos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Construir intervalos de confianza.<br><strong>En simple:</strong> La inferencia te ayuda a decidir con evidencia usando muestras, no toda la población.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> intervalos de confianza<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Relacionar muestra y poblaciÃ³n.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Relacionar muestra, poblaciÃ³n<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Aplicar inferencia a un caso real.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> inferencia a un caso real<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Guardar apuntes con ejemplos propios.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> apuntes con ejemplos propios<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 22",
+        "title": "Regresión",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Explorar correlaciÃ³n y causalidad.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Explorar correlaciÃ³n, causalidad<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Construir regresión lineal simple.<br><strong>En simple:</strong> La regresión busca explicar o predecir una variable a partir de otras, revisando si el modelo realmente tiene sentido.<br><strong>Ejemplo:</strong> Ejemplo: predecir ventas a partir de inversión en marketing.<br><strong>Qué buscar:</strong> regresión lineal simple<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Leer coeficientes y RÂ² con criterio.<br><strong>En simple:</strong> La regresión busca explicar o predecir una variable a partir de otras, revisando si el modelo realmente tiene sentido.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Leer coeficientes, RÂ² con criterio<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Revisar supuestos bÃ¡sicos del modelo.<br><strong>En simple:</strong> La regresión busca explicar o predecir una variable a partir de otras, revisando si el modelo realmente tiene sentido.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> supuestos bÃ¡sicos del modelo<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Comparar modelos y hacer interpretaciones.<br><strong>En simple:</strong> La regresión busca explicar o predecir una variable a partir de otras, revisando si el modelo realmente tiene sentido.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> modelos, hacer interpretaciones<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Preparar un pequeÃ±o notebook explicativo.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> un pequeÃ±o notebook explicativo<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Presentar hallazgos como si fueran para negocio.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Presentar hallazgos como si fueran para negocio<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 23",
+        "title": "A/B testing",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: DiseÃ±ar un experimento con hipÃ³tesis claras.<br><strong>En simple:</strong> Un A/B testing compara dos versiones para decidir con datos cuál funciona mejor.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> DiseÃ±ar un experimento con hipÃ³tesis claras<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Entender tamaÃ±o de muestra y poder estadÃ­stico.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> tamaÃ±o de muestra, poder estadÃ­stico<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Ejecutar una prueba t o equivalente.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Ejecutar una prueba t o equivalente<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Interpretar resultados y decidir con evidencia.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Interpretar resultados, decidir con evidencia<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Documentar riesgos y sesgos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> riesgos, sesgos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Escribir recomendaciones ejecutivas.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> recomendaciones ejecutivas<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Presentar el experimento como caso profesional.<br><strong>En simple:</strong> Un A/B testing compara dos versiones para decidir con datos cuál funciona mejor.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Presentar el experimento como caso profesional<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 24",
+        "title": "Proyecto final",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Hacer un EDA completo con narrativa clara.<br><strong>En simple:</strong> Aquí aprendes a elegir gráficos con intención: cada visual debe responder una pregunta de negocio.<br><strong>Ejemplo:</strong> Ejemplo: un gráfico de línea para tendencia y una barra para comparar categorías.<br><strong>Qué buscar:</strong> un EDA completo con narrativa clara<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Combinar visualizaciÃ³n, inferencia y conclusiÃ³n.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Combinar visualizaciÃ³n, inferencia, conclusiÃ³n<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Escribir recomendaciones accionables.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> recomendaciones accionables<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Dejar el notebook limpio y reproducible.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Dejar el notebook limpio, reproducible<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Subir a GitHub con explicaciÃ³n de negocio.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Subir a GitHub con explicaciÃ³n de negocio<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Crear un resumen ejecutivo en Markdown.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> un resumen ejecutivo en Markdown<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Practicar explicar el proyecto en 2 minutos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> explicar el proyecto en 2 minutos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "A/B testing real",
+        "desc": "Diseño y análisis de un experimento para decidir con evidencia si una variante mejora el resultado.",
+        "steps": [
+          "Plantear hipótesis",
+          "Definir muestra y métricas",
+          "Analizar significancia",
+          "Presentar recomendación"
+        ]
+      },
+      {
+        "name": "Pronóstico simple de demanda",
+        "desc": "Modelo estadístico básico para estimar ventas o demanda futura con interpretación ejecutiva.",
+        "steps": [
+          "Explorar la serie",
+          "Visualizar tendencia y estacionalidad",
+          "Probar un modelo simple",
+          "Explicar limitaciones"
+        ]
+      }
+    ],
+    "case_study": {
+      "dataset": "Resultados de una campaña digital o una landing page con conversiones, clics, sesiones y segmentación de usuarios.",
+      "context": "Marketing quiere saber si una nueva versión mejora la conversión sin disparar el costo por resultado.",
+      "questions": "¿La diferencia es real o azar?, ¿qué grupo responde mejor?, ¿la mejora justifica implementarla?",
+      "deliverable": "Informe estadístico corto con decisión, gráficas e interpretación gerencial."
+    },
+    "tip": "La estadística te da criterio; sin criterio, la herramienta no importa."
+  },
+  {
+    "id": "p6",
+    "num": "6",
+    "title": "Python para datos",
+    "weeks": "Semanas 25–34",
+    "tag": "Python",
+    "accent": "#6366f1",
+    "skills": [
+      "Pandas",
+      "NumPy",
+      "APIs",
+      "SQLAlchemy",
+      "Scraping",
+      "Automatización",
+      "Visualización",
+      "Tests"
+    ],
+    "weeks_detail": [
+      {
+        "label": "SEMANA 25–27",
+        "title": "Python core",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Dominar variables, listas, diccionarios, funciones y control de flujo.<br><strong>En simple:</strong> Los alias hacen más legible la consulta, los operadores comparan valores y las funciones transforman o calculan datos.<br><strong>Ejemplo:</strong> Ejemplo: guardar una venta en una variable, recorrer una lista y tomar una decisión con if.<br><strong>Qué buscar:</strong> variables, listas, diccionarios, funciones, control de flujo<br><strong>Resultado esperado:</strong> Puedes resolver ejercicios simples en Python sin copiar el código."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Practicar comprensión de listas y manejo de errores.<br><strong>En simple:</strong> Las comprensiones te dejan escribir transformaciones cortas; el manejo de errores evita que el programa se rompa por cualquier detalle.<br><strong>Ejemplo:</strong> Ejemplo: filtrar solo los valores mayores a 100 con una línea corta.<br><strong>Qué buscar:</strong> comprensión de listas, manejo de errores<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Aprender mÃ³dulos, paquetes y entornos virtuales.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> mÃ³dulos, paquetes, entornos virtuales<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Escribir scripts pequeÃ±os y claros.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> scripts pequeÃ±os, claros<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Trabajar con archivos CSV y JSON.<br><strong>En simple:</strong> CSV y JSON son formatos muy comunes para mover datos entre archivos, APIs y bases de datos.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Trabajar con archivos CSV, JSON<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Usar buenas prÃ¡cticas de estilo y nombres.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> buenas prÃ¡cticas de estilo, nombres<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Crear ejercicios propios para consolidar.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> ejercicios propios para consolidar<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 28–30",
+        "title": "Pandas y NumPy",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Cargar datos con Pandas y explorar DataFrames.<br><strong>En simple:</strong> Pandas te permite trabajar con tablas en Python como si fueran hojas de cálculo más potentes.<br><strong>Ejemplo:</strong> Ejemplo: cargar un CSV y ver primeras filas, columnas y tipos de dato.<br><strong>Qué buscar:</strong> datos con Pandas, explorar DataFrames<br><strong>Resultado esperado:</strong> Puedes cargar y revisar un dataset, filtrar datos y hacer una transformación simple."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Filtrar, agrupar, mergear y limpiar datos.<br><strong>En simple:</strong> Merge une tablas por una clave; Append apila tablas con la misma estructura.<br><strong>Ejemplo:</strong> Ejemplo: unir ventas con clientes por id_cliente para agregar información del cliente al registro.<br><strong>Qué buscar:</strong> Filtrar, agrupar, mergear, limpiar datos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Transformar fechas, strings y nulos.<br><strong>En simple:</strong> Las fechas, textos y valores vacíos son los problemas más comunes al limpiar datos reales.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Transformar fechas, strings, nulos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Hacer agregaciones y pivots como en negocio real.<br><strong>En simple:</strong> Las agregaciones resumen datos y los pivots reorganizan la tabla para analizar mejor una métrica.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> agregaciones, pivots como en negocio real<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Usar NumPy para operaciones numÃ©ricas eficientes.<br><strong>En simple:</strong> NumPy te ayuda con cálculos numéricos rápidos y operaciones sobre arreglos.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> NumPy para operaciones numÃ©ricas eficientes<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Visualizar resultados y comprobar consistencia.<br><strong>En simple:</strong> Ver el resultado te ayuda a validar si la limpieza o el cálculo realmente tiene sentido.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Visualizar resultados, comprobar consistencia<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Preparar una pequeÃ±a librerÃ­a de utilidades.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> una pequeÃ±a librerÃ­a de utilidades<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 31–32",
+        "title": "APIs y scraping",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Consumir una API pÃºblica con requests.<br><strong>En simple:</strong> Una API te deja pedir datos a otro sistema de forma estructurada, como si hablaras con un servicio web.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Consumir una API pÃºblica con requests<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Parsear JSON y convertirlo en datos Ãºtiles.<br><strong>En simple:</strong> Parsear JSON significa convertir la respuesta de una API en una estructura útil para analizar o guardar.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Parsear JSON, convertirlo en datos Ãºtiles<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Hacer scraping básico con BeautifulSoup cuando aplique.<br><strong>En simple:</strong> El scraping extrae datos de una página web cuando no existe una API o cuando necesitas otra fuente.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> scraping básico con BeautifulSoup cuando aplique<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Guardar los datos en archivos o bases de datos.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> los datos en archivos o bases de datos<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Manejar errores, reintentos y control de calidad.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Manejar errores, reintentos, control de calidad<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Documentar fuentes y limitaciones.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> fuentes, limitaciones<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Revisar Ã©tica y buenas prÃ¡cticas.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Ã©tica, buenas prÃ¡cticas<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 33",
+        "title": "SQLAlchemy y persistencia",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Conectar Python con PostgreSQL.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Conectar Python con PostgreSQL<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Guardar datos en tablas y leerlos de nuevo.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> datos en tablas, leerlos de nuevo<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Entender el flujo extract-transform-load con cÃ³digo.<br><strong>En simple:</strong> Aquí llevas datos desde una fuente, los transformas en Python y luego los guardas listos para consumir.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> el flujo extract-transform-load con cÃ³digo<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Controlar tipos y validaciones.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Controlar tipos, validaciones<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Separar mÃ³dulos por responsabilidad.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Separar mÃ³dulos por responsabilidad<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Escribir pruebas unitarias simples.<br><strong>En simple:</strong> Las pruebas unitarias validan que una función pequeña haga exactamente lo que promete.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> pruebas unitarias simples<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Preparar el pipeline para automatizarlo.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> el pipeline para automatizarlo<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 34",
+        "title": "Proyecto integrador",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Construir un pipeline API → Python → PostgreSQL.<br><strong>En simple:</strong> El proyecto integrador une extracción, transformación, almacenamiento y visualización en un solo flujo.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> un pipeline API → Python → PostgreSQL<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Programar el proceso para ejecutarse automÃ¡ticamente.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Programar el proceso para ejecutarse automÃ¡ticamente<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Conectar Power BI a la base y visualizar el resultado.<br><strong>En simple:</strong> El proyecto integrador une extracción, transformación, almacenamiento y visualización en un solo flujo.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Conectar Power BI a la base, visualizar el resultado<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Grabar una demo corta del flujo completo.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Grabar una demo corta del flujo completo<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Documentar arquitectura, dependencias y uso.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> arquitectura, dependencias, uso<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Publicar el repositorio como proyecto serio.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Publicar el repositorio como proyecto serio<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Cuidar la presentaciÃ³n como si fuera para una empresa.<br><strong>En simple:</strong> Vas a entender el concepto, practicarlo con un ejemplo y luego comprobar que lo puedes explicar sin mirar apuntes.<br><strong>Ejemplo:</strong> Ejemplo: usa un dataset pequeño, haz la tarea una vez con ayuda y luego una vez solo.<br><strong>Qué buscar:</strong> Cuidar la presentaciÃ³n como si fuera para una empresa<br><strong>Resultado esperado:</strong> Puedes explicarlo con tus palabras y resolverlo sin mirar apuntes."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Pipeline API → Python → PostgreSQL",
+        "desc": "Extracción automática desde una API, procesamiento en Python y carga limpia en base de datos.",
+        "steps": [
+          "Consumir la API",
+          "Transformar con Pandas",
+          "Cargar en PostgreSQL",
+          "Automatizar la ejecución"
+        ]
+      },
+      {
+        "name": "Automatizador de reportes diarios",
+        "desc": "Script que extrae datos, limpia información y genera un archivo listo para consumo interno.",
+        "steps": [
+          "Leer la fuente",
+          "Limpiar y transformar",
+          "Generar salida",
+          "Documentar el uso"
+        ]
+      }
+    ],
+    "case_study": {
+      "dataset": "API pública de ventas, clima, inventario o precios con datos diarios que cambian constantemente.",
+      "context": "El equipo necesita automatizar la captura de datos para no depender de procesos manuales.",
+      "questions": "¿Cómo extraigo datos sin romper el flujo?, ¿qué validaciones debo hacer?, ¿cómo dejo trazabilidad?",
+      "deliverable": "Pipeline reproducible y automatizado con código limpio y documentación."
+    },
+    "tip": "Python te da reproducibilidad, automatización y escala."
+  },
+  {
+    "id": "p7",
+    "num": "7",
+    "title": "Ingeniería de datos moderna",
+    "weeks": "Semanas 35–44",
+    "tag": "Data Eng",
+    "accent": "#14b8a6",
+    "skills": [
+      "Docker",
+      "Docker Compose",
+      "Airflow",
+      "dbt",
+      "Spark",
+      "Medallion",
+      "Lakehouse",
+      "Testing"
+    ],
+    "weeks_detail": [
+      {
+        "label": "SEMANA 35–37",
+        "title": "Contenedores y orquestación",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Entender qué problema resuelve Docker y por qué se usa en datos. Busca: qué es Docker, imágenes, contenedores y volúmenes. Resultado esperado: puedes explicar con tus palabras cómo ayuda a que un proyecto funcione igual en tu PC y en otra máquina."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Levantar servicios con docker compose para usar varias piezas juntas. Busca: docker compose básico, servicios, puertos y volúmenes. Resultado esperado: puedes iniciar una app con sus dependencias sin hacerlo manualmente una por una."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Entender qué es un DAG en Airflow y cómo programa tareas. Busca: Airflow DAG, tasks, scheduling, ETL. Resultado esperado: puedes describir cómo Airflow ordena un proceso de datos."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Separar responsabilidades por capas. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Separar responsabilidades por capas. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Aprender a ejecutar pipelines locales reproducibles. Busca una definición simple, identifica para qué sirve y escribe un ejemplo propio. Busca: a ejecutar pipelines locales reproducibles. Resultado esperado: puedes explicarlo con tus palabras y reconocer cuándo usarlo."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Registrar errores y recuperar fallos. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Registrar errores, recuperar fallos. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Documentar el entorno completo. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: el entorno completo. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 38–40",
+        "title": "dbt y calidad",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Crear modelos dbt para transformar datos de forma ordenada. Busca: dbt models, staging, marts y transformación SQL. Resultado esperado: puedes construir una capa de datos limpia y entendible."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Agregar tests y documentación para no confiar ciegamente en los datos. Busca: dbt tests, schema.yml, documentación de modelos. Resultado esperado: sabes validar nulos, unicidad y relaciones."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Diseñar capas Bronze, Silver y Gold. Busca: medallion architecture, bronze silver gold. Resultado esperado: puedes separar datos crudos, limpios y listos para negocio."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Estandarizar nombres y transformaciones. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Estandarizar nombres, transformaciones. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Separar lÃ³gica de negocio de raw data. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Separar lÃ³gica de negocio de raw data. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Publicar dbt docs como evidencia. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Publicar dbt docs como evidencia. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Validar datos con mentalidad de producciÃ³n. Verifica lo aprendido, detecta errores y deja una nota corta con conclusiones. Busca: datos con mentalidad de producciÃ³n. Resultado esperado: sabes qué está bien y qué debes corregir."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 41–42",
+        "title": "Spark y escalabilidad",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Entender Spark y DataFrames como base del procesamiento distribuido. Busca: Apache Spark, DataFrame, RDD, PySpark. Resultado esperado: puedes explicar cuándo Spark sirve más que Pandas."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Aprender cuándo usar procesamiento distribuido. Busca: big data, cluster, partitioning, distributed processing. Resultado esperado: identificas casos donde un solo computador ya no alcanza."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Practicar transformaciones con PySpark. Busca: select, filter, join, groupBy en PySpark. Resultado esperado: haces operaciones básicas sobre datos grandes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Comparar batch local vs escalado. Verifica lo aprendido, detecta errores y deja una nota corta con conclusiones. Busca: batch local vs escalado. Resultado esperado: sabes qué está bien y qué debes corregir."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Revisar particionado y eficiencia. Verifica lo aprendido, detecta errores y deja una nota corta con conclusiones. Busca: particionado, eficiencia. Resultado esperado: sabes qué está bien y qué debes corregir."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Conectar conceptos con problemas reales. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Conectar conceptos con problemas reales. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Escribir un resumen tÃ©cnico de lo aprendido. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: un resumen tÃ©cnico de lo aprendido. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 43–44",
+        "title": "Proyecto integrador",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Construir un warehouse con Airflow + dbt + PostgreSQL. Busca: data warehouse, orchestration, dbt, PostgreSQL. Resultado esperado: entregas un sistema funcional con capas de datos."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Orquestar cargas diarias y tests automáticos. Busca: scheduling, Airflow DAG, data quality checks. Resultado esperado: el flujo corre solo y avisa si algo falla."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Documentar arquitectura y linaje. Busca: data lineage, arquitectura de datos, documentación técnica. Resultado esperado: otra persona puede entender tu pipeline solo leyendo el README."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Revisar observabilidad básica del pipeline. Busca: logs, alertas, métricas de pipeline. Resultado esperado: sabes detectar fallas y medir si los datos llegaron a tiempo."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Subir todo con docker compose y README fuerte. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Subir todo con docker compose, README fuerte. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Ensayar la demo y el discurso tÃ©cnico. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Ensayar la demo, el discurso tÃ©cnico. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Cerrar la fase como Data Engineer real. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Cerrar la fase como Data Engineer real. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Plataforma de datos e-commerce con Docker + Airflow + dbt",
+        "desc": "Un pipeline end-to-end que extrae ventas y eventos, valida calidad, orquesta cargas, construye capas medallion y deja una demo profesional lista para GitHub.",
+        "steps": [
+          "Dockerizar entorno local",
+          "Orquestar ingesta con Airflow",
+          "Transformar con dbt",
+          "Validar calidad de datos",
+          "Publicar dashboard final",
+          "Documentar arquitectura y demo"
+        ]
+      },
+      {
+        "name": "Data Warehouse medallion",
+        "desc": "Un warehouse con orquestación, tests y documentación, listo para producción educativa.",
+        "steps": [
+          "Diseñar arquitectura",
+          "Orquestar con Airflow",
+          "Transformar con dbt",
+          "Publicar documentación"
+        ]
+      },
+      {
+        "name": "Pipeline orquestado con Airflow + dbt",
+        "desc": "Automatiza cargas, modelado y pruebas para mostrar control real sobre pipelines de datos.",
+        "steps": [
+          "Crear DAG",
+          "Ejecutar tests",
+          "Cargar capas",
+          "Registrar evidencias"
+        ]
+      }
+    ],
+    "case_study": {
+      "dataset": "Fuentes de ventas, clientes e interacciones que llegan diariamente y deben consolidarse en capas confiables.",
+      "context": "La empresa quiere una plataforma escalable para consumir datos limpios sin depender de procesos manuales.",
+      "questions": "¿Cómo diseño capas?, ¿qué testeo?, ¿cómo controlo fallos?, ¿qué publican los usuarios de negocio?",
+      "deliverable": "Warehouse medallion documentado con orquestación, pruebas y trazabilidad."
+    },
+    "tip": "Aquí dejas de hacer análisis aislado y empiezas a construir sistemas listos para producción."
+  },
+  {
+    "id": "p8",
+    "num": "8",
+    "title": "Cloud y Data Ops",
+    "weeks": "Semanas 45–52",
+    "tag": "Cloud",
+    "accent": "#f97316",
+    "skills": [
+      "Azure Blob",
+      "Data Factory",
+      "Synapse",
+      "Terraform",
+      "GitHub Actions",
+      "Fabric",
+      "IAM",
+      "Cost awareness"
+    ],
+    "weeks_detail": [
+      {
+        "label": "SEMANA 45–46",
+        "title": "Base cloud y arquitectura",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Entender IaaS, PaaS y SaaS con ejemplos de datos. Busca: IaaS PaaS SaaS, Azure Blob, Data Factory y Synapse. Resultado esperado: puedes decir qué tipo de servicio conviene según el problema."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Conocer Azure Blob, Data Factory y Synapse como piezas base. Busca: almacenamiento, orquestación y analítica en Azure. Resultado esperado: entiendes cómo se conectan en una arquitectura de datos."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Aprender redes, permisos y conceptos IAM. Busca una definición simple, identifica para qué sirve y escribe un ejemplo propio. Busca: redes, permisos, conceptos IAM. Resultado esperado: puedes explicarlo con tus palabras y reconocer cuándo usarlo."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Revisar almacenamiento, cÃ³mputo y orquestaciÃ³n. Verifica lo aprendido, detecta errores y deja una nota corta con conclusiones. Busca: almacenamiento, cÃ³mputo, orquestaciÃ³n. Resultado esperado: sabes qué está bien y qué debes corregir."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Explorar costos y pensar en eficiencia. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Explorar costos, pensar en eficiencia. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Construir diagramas de arquitectura simples. Divide el trabajo en pasos, construye el resultado final y verifica que funcione. Busca: diagramas de arquitectura simples. Resultado esperado: entregas algo funcional y ordenado."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Documentar el servicio elegido como si fuera real. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: el servicio elegido como si fuera real. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 47–48",
+        "title": "Infraestructura como código",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Empezar con Terraform para crear recursos reproducibles. Busca: Terraform basics, provider, resources, state. Resultado esperado: puedes crear infraestructura sin hacerlo todo manualmente."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Versionar infraestructura junto al código. Busca: infraestructura como código, control de versiones, GitHub Actions. Resultado esperado: entiendes por qué la nube también se administra con Git."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Automatizar validaciones con GitHub Actions. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Automatizar validaciones con GitHub Actions. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Separar secretos y variables de entorno. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Separar secretos, variables de entorno. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Practicar despliegues seguros. Repite el proceso con un caso real hasta hacerlo sin mirar apuntes. Busca: despliegues seguros. Resultado esperado: ganas fluidez y menos errores."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Revisar el enfoque DataOps en el pipeline. Verifica lo aprendido, detecta errores y deja una nota corta con conclusiones. Busca: el enfoque DataOps en el pipeline. Resultado esperado: sabes qué está bien y qué debes corregir."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Preparar una demo que explique el valor operativo. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: una demo que explique el valor operativo. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 49–50",
+        "title": "Azure orientado a datos",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Crear un flujo de ingesta a Blob Storage. Busca: Azure Blob Storage, ingestion pipeline, data lake. Resultado esperado: sabes dónde aterrizan los datos antes de transformarlos."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Transformar datos con Data Factory. Busca: pipelines, activities, datasets, linked services. Resultado esperado: entiendes cómo mover y preparar datos en Azure."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Cargar y consultar en Synapse o componentes equivalentes. Trae los datos, revisa que entren bien y valida tipos, columnas y valores. Busca: y consultar en Synapse o componentes equivalentes. Resultado esperado: el dataset queda listo para trabajar."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Conectar Power BI para visualizaciÃ³n final. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Conectar Power BI para visualizaciÃ³n final. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Pensar en SLAs, permisos y mantenimiento. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: en SLAs, permisos, mantenimiento. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Revisar cuÃ¡ndo conviene cada servicio. Verifica lo aprendido, detecta errores y deja una nota corta con conclusiones. Busca: cuÃ¡ndo conviene cada servicio. Resultado esperado: sabes qué está bien y qué debes corregir."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Preparar una arquitectura lista para defenderse en entrevista. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: una arquitectura lista para defenderse en entrevista. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 51–52",
+        "title": "Azure primero, AWS después",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Consolidar Azure como nube principal de la ruta. Busca: Azure data services, Azure for data engineering. Resultado esperado: tienes una postura profesional clara."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Entender AWS a nivel conceptual para no quedarte cerrado. Busca: S3, Glue, Redshift como equivalentes. Resultado esperado: comparas servicios sin mezclar rutas."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Comparar Blob con S3, Synapse con Redshift y similares. Busca: Azure vs AWS for data. Resultado esperado: puedes traducir conceptos entre nubes."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: No intentar profundizar dos nubes a la vez. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: No intentar profundizar dos nubes a la vez. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Definir una postura profesional clara para el mercado. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Definir una postura profesional clara para el mercado. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Cerrar el bloque con una arquitectura propia. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Cerrar el bloque con una arquitectura propia. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Registrar tu criterio en el README del proyecto. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Registrar tu criterio en el README del proyecto. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Pipeline serverless en Azure",
+        "desc": "Un flujo cloud con infraestructura, orquestación y salida analítica lista para mostrar madurez.",
+        "steps": [
+          "Diseñar arquitectura",
+          "Automatizar infraestructura",
+          "Conectar ingestión",
+          "Presentar demo"
+        ]
+      },
+      {
+        "name": "Infraestructura de datos con Terraform",
+        "desc": "Provisiona recursos cloud para datos con infraestructura como código, trazabilidad y despliegue reproducible.",
+        "steps": [
+          "Definir recursos",
+          "Escribir Terraform",
+          "Desplegar storage y cómputo",
+          "Conectar pipeline",
+          "Documentar costos y permisos"
+        ]
+      },
+      {
+        "name": "Arquitectura analítica en Azure",
+        "desc": "Una solución con Blob/Data Lake, Data Factory, Synapse y Power BI para mostrar dominio real de cloud para datos.",
+        "steps": [
+          "Cargar datos en storage",
+          "Orquestar con Data Factory",
+          "Modelar en Synapse",
+          "Conectar a Power BI",
+          "Explicar decisiones técnicas"
+        ]
+      }
+    ],
+    "case_study": {
+      "dataset": "Flujos de datos que deben aterrizar en almacenamiento cloud, luego transformarse y terminar disponibles para BI.",
+      "context": "Una empresa quiere mover su analítica a cloud con despliegue repetible, control de costos y seguridad básica.",
+      "questions": "¿Dónde guardo los datos?, ¿cómo automatizo el movimiento?, ¿cómo conecto BI sin exponer secretos?",
+      "deliverable": "Arquitectura cloud de datos explicada con diagrama, servicios y costos estimados."
+    },
+    "tip": "Azure es tu nube principal aquí; AWS conviene como segunda referencia, no como foco inicial."
+  },
+  {
+    "id": "p9",
+    "num": "9",
+    "title": "Streaming, gobernanza, calidad y observabilidad",
+    "weeks": "Semanas 53–58",
+    "tag": "Ops+Streaming",
+    "accent": "#ec4899",
+    "skills": [
+      "Kafka",
+      "CDC",
+      "Great Expectations",
+      "DataHub",
+      "Grafana",
+      "Lineage",
+      "Alertas",
+      "Data contracts"
+    ],
+    "weeks_detail": [
+      {
+        "label": "SEMANA 53–54",
+        "title": "Streaming base",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Entender eventos, productores, consumidores y colas. Busca: Kafka producer, consumer, topic y event-driven data. Resultado esperado: puedes explicar cómo viaja un evento en tiempo real."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Montar Kafka y probar un flujo simple. Busca: Kafka local, topics, partitions y messages. Resultado esperado: publicas y consumes mensajes tú mismo."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Conocer CDC con Debezium como concepto. Busca una definición simple, identifica para qué sirve y escribe un ejemplo propio. Busca: CDC con Debezium como concepto. Resultado esperado: puedes explicarlo con tus palabras y reconocer cuándo usarlo."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Procesar eventos con PySpark Structured Streaming. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Procesar eventos con PySpark Structured Streaming. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Pensar en ventanas, late events y estado. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: en ventanas, late events, estado. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Comparar batch versus streaming. Verifica lo aprendido, detecta errores y deja una nota corta con conclusiones. Busca: batch versus streaming. Resultado esperado: sabes qué está bien y qué debes corregir."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Documentar un mini caso de uso. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: un mini caso de uso. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 55–56",
+        "title": "Calidad y gobernanza",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Aplicar Great Expectations para validar datos. Busca: data quality checks, expectations, validations. Resultado esperado: sabes detectar datos rotos antes de reportarlos."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Diseñar reglas de calidad como contratos. Busca: data contracts, SLA, ownership. Resultado esperado: entiendes que la calidad también se acuerda y se controla."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Entender lineage, ownership y documentaciÃ³n. Busca una definición simple, identifica para qué sirve y escribe un ejemplo propio. Busca: lineage, ownership, documentaciÃ³n. Resultado esperado: puedes explicarlo con tus palabras y reconocer cuándo usarlo."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Montar un catÃ¡logo conceptual con DataHub. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Montar un catÃ¡logo conceptual con DataHub. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Definir mÃ©tricas de calidad y umbrales. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Definir mÃ©tricas de calidad, umbrales. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Explicar fallas de datos con lenguaje de negocio. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Explicar fallas de datos con lenguaje de negocio. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Consolidar una visiÃ³n operativa seria. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Consolidar una visiÃ³n operativa seria. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      },
+      {
+        "label": "SEMANA 57–58",
+        "title": "Observabilidad",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Conectar métricas de pipeline a Grafana o equivalente. Busca: metrics, dashboard, observability. Resultado esperado: ves si el pipeline está sano o no."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Pensar en alertas, SLAs y SLOs. Busca: alerting, SLA, SLO, data freshness. Resultado esperado: sabes cuándo un dato ya llegó tarde o falló."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Medir latencia, frescura y disponibilidad de datos. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Medir latencia, frescura, disponibilidad de datos. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: DiseÃ±ar un panel simple para operaciÃ³n diaria. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: DiseÃ±ar un panel simple para operaciÃ³n diaria. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Establecer un protocolo de incidentes. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Establecer un protocolo de incidentes. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Revisar cÃ³mo se monitorea un sistema real. Verifica lo aprendido, detecta errores y deja una nota corta con conclusiones. Busca: cÃ³mo se monitorea un sistema real. Resultado esperado: sabes qué está bien y qué debes corregir."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Cerrar con una demo de calidad y control. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Cerrar con una demo de calidad, control. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Streaming analytics con Kafka",
+        "desc": "Un caso de eventos en tiempo real con productor, consumidor y visualización de métricas de negocio.",
+        "steps": [
+          "Generar eventos",
+          "Consumir con Kafka",
+          "Procesar con Spark",
+          "Publicar métricas"
+        ]
+      },
+      {
+        "name": "Control tower de calidad y observabilidad",
+        "desc": "Una capa de monitoreo con reglas de calidad, lineage y alertas para demostrar mentalidad de producción.",
+        "steps": [
+          "Definir reglas",
+          "Ejecutar validaciones",
+          "Registrar lineage",
+          "Configurar alertas"
+        ]
+      },
+      {
+        "name": "Data contracts y monitoreo operativo",
+        "desc": "Define acuerdos de datos, umbrales y señales de alerta para prevenir fallos antes de que afecten al negocio.",
+        "steps": [
+          "Escribir contratos",
+          "Medir frescura",
+          "Detectar anomalías",
+          "Documentar incidentes"
+        ]
+      }
+    ],
+    "case_study": {
+      "dataset": "Eventos de operación, ventas o soporte que llegan minuto a minuto y deben monitorearse sin retraso.",
+      "context": "Operaciones necesita detectar fallos, caídas o anomalías antes de que impacten al negocio.",
+      "questions": "¿Qué eventos entran en tiempo real?, ¿qué umbrales disparan alertas?, ¿qué tan fresco está el dato?",
+      "deliverable": "Mini plataforma de observabilidad y streaming lista para GitHub y demo."
+    },
+    "tip": "Esto convierte un proyecto bonito en un sistema serio."
+  },
+  {
+    "id": "p10",
+    "num": "10",
+    "title": "Proyecto integrador senior + IA aplicada",
+    "weeks": "Semanas 59+",
+    "tag": "Capstone",
+    "accent": "#c026d3",
+    "skills": [
+      "LangChain",
+      "RAG",
+      "Azure OpenAI",
+      "MLflow",
+      "Text-to-SQL",
+      "Embeddings",
+      "Streamlit",
+      "Demo"
+    ],
+    "weeks_detail": [
+      {
+        "label": "FASE FINAL",
+        "title": "Capstone senior",
+        "days": [
+          {
+            "day": "Día 1",
+            "content": "Objetivo: Diseñar una solución completa con datos, IA y cloud. Busca: architecture, RAG, LangChain, Azure OpenAI. Resultado esperado: sabes explicar el sistema de punta a punta."
+          },
+          {
+            "day": "Día 2",
+            "content": "Objetivo: Construir un asistente que consulte datos reales. Busca: Text-to-SQL, embeddings, retrieval. Resultado esperado: una pregunta de negocio se convierte en consulta y respuesta útil."
+          },
+          {
+            "day": "Día 3",
+            "content": "Objetivo: Agregar visualización y memoria. Busca: Streamlit, dashboard, session state, memory. Resultado esperado: el sistema no solo responde, también muestra contexto y métricas."
+          },
+          {
+            "day": "Día 4",
+            "content": "Objetivo: Publicar una demo seria para portafolio. Busca: deployment, README, demo video, case study. Resultado esperado: puedes enseñarlo como producto profesional."
+          },
+          {
+            "day": "Día 5",
+            "content": "Objetivo: Documentar decisiones, lÃ­mites y supuestos. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: decisiones, lÃ­mites, supuestos. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 6",
+            "content": "Objetivo: Probar el sistema con datos reales o simulados. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: el sistema con datos reales o simulados. Resultado esperado: puedes repetirlo sin ayuda."
+          },
+          {
+            "day": "Día 7",
+            "content": "Objetivo: Grabar una demo final de nivel portafolio senior. Busca una explicación simple, haz un ejercicio corto y confirma que lo puedes explicar con tus palabras. Busca: Grabar una demo final de nivel portafolio senior. Resultado esperado: puedes repetirlo sin ayuda."
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Sistema de análisis con IA",
+        "desc": "Un caso final donde el usuario pregunta en lenguaje natural y el sistema responde con SQL, análisis y visualización.",
+        "steps": [
+          "Conectar datos",
+          "Crear agente IA",
+          "Agregar memoria/visualización",
+          "Publicar demo"
+        ]
+      },
+      {
+        "name": "Asistente ejecutivo con Text-to-SQL",
+        "desc": "Un asistente que traduce preguntas de negocio a SQL, ejecuta análisis y devuelve resultados claros para dirección.",
+        "steps": [
+          "Diseñar el esquema",
+          "Exponer consultas seguras",
+          "Crear interfaz Streamlit",
+          "Medir calidad de respuestas",
+          "Publicar demo profesional"
+        ]
+      },
+      {
+        "name": "Capstone empresarial Data + IA + Cloud",
+        "desc": "Proyecto senior con pipeline de datos, modelo analítico y despliegue en cloud para venderte como perfil sólido.",
+        "steps": [
+          "Ingesta y warehouse",
+          "Modelo analítico",
+          "Capa IA/RAG",
+          "Despliegue cloud",
+          "Documentación y presentación"
+        ]
+      }
+    ],
+    "tip": "La IA no reemplaza al ingeniero de datos; reemplaza al que no construye sistemas con IA."
+  }
+];
+
+const KEY = "roadmap_definitivo_alejandro_v1";
+let STATE = {};
+try { STATE = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { STATE = {}; }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(STATE)); } catch(e) {} }
+function get(k, d=false) { return STATE[k] !== undefined ? STATE[k] : d; }
+function set(k, v) { STATE[k] = v; save(); }
+function toggle(k) { const v = !get(k,false); set(k,v); return v; }
+
+function phaseProgress(p) {
+  let total = 0, done = 0;
+  p.weeks_detail.forEach((w, wi) => w.days.forEach((_, di) => {
+    total++;
+    if (get(`day_${p.id}_${wi}_${di}`)) done++;
+  }));
+  p.skills.forEach((_, si) => {
+    total++;
+    if (get(`skill_${p.id}_${si}`)) done++;
+  });
+  p.projects.forEach((pr, pi) => {
+    pr.steps.forEach((_, si) => {
+      total++;
+      if (get(`step_${p.id}_${pi}_${si}`)) done++;
+    });
+  });
+  return { total, done };
+}
+
+function totalCounters() {
+  let totalDays=0, doneDays=0, totalSkills=0, doneSkills=0, totalProjects=0, doneProjects=0;
+  PHASES.forEach(p => {
+    p.weeks_detail.forEach((w,wi)=>w.days.forEach((_,di)=>{ totalDays++; if(get(`day_${p.id}_${wi}_${di}`)) doneDays++; }));
+    p.skills.forEach((_,si)=>{ totalSkills++; if(get(`skill_${p.id}_${si}`)) doneSkills++; });
+    p.projects.forEach((pr,pi)=>pr.steps.forEach((_,si)=>{ totalProjects++; if(get(`step_${p.id}_${pi}_${si}`)) doneProjects++; }));
+  });
+  return { totalDays, doneDays, totalSkills, doneSkills, totalProjects, doneProjects };
+}
+
+function render() {
+  const mount = document.getElementById("phases");
+  mount.innerHTML = PHASES.map(p => {
+    const open = get(`open_${p.id}`, false);
+    const { total, done } = phaseProgress(p);
+    const pct = total ? Math.round((done/total)*100) : 0;
+    const isDone = get(`phase_done_${p.id}`, false);
+    const numColor = p.accent || "#22c55e";
+    return `
+      <section class="phase" id="phase-${p.id}">
+        <div class="phase-head" onclick="togglePhase('${p.id}')">
+          <div class="num" style="background:${numColor}">${p.num}</div>
+          <div class="phase-info">
+            <h2>${isDone ? "✓ " : ""}${p.title}</h2>
+            <div class="phase-meta">${p.weeks} · ${p.tag}</div>
+          </div>
+          <div class="phase-progress">
+            <div class="pbar"><div class="pfill" style="width:${pct}%; --c:${numColor}; background:${numColor}"></div></div>
+            <div class="pct">${pct}%</div>
+          </div>
+          <div class="chev">${open ? "▴" : "▾"}</div>
+        </div>
+        <div class="body ${open ? "open" : ""}" id="body-${p.id}">
+          <div class="grid2">
+            <div class="box">
+              <h4>Skills clave</h4>
+              <div class="skills">
+                ${p.skills.map((s, i) => `<span class="skill ${get(`skill_${p.id}_${i}`, false) ? 'done' : ''}" onclick="toggleSkill('${p.id}', ${i})">${get(`skill_${p.id}_${i}`, false) ? '✓ ' : ''}${s}</span>`).join("")}
+              </div>
+            </div>
+            <div class="box">
+              <h4>Proyecto principal</h4>
+              <div class="proj">
+                ${p.projects.map((pr, pi) => `
+                  <div class="proj-card" style="--c:${numColor}">
+                    <h5>${pr.name}</h5>
+                    <p>${pr.desc}</p>
+                    <ol>
+                      ${pr.steps.map((st, si) => `
+                        <li class="proj-step ${get(`step_${p.id}_${pi}_${si}`, false) ? 'done' : ''}">
+                          <span class="proj-step-mark" onclick="toggleStep('${p.id}', ${pi}, ${si})">${get(`step_${p.id}_${pi}_${si}`, false) ? '✓' : '▢'}</span>
+                          <span>${st}</span>
+                        </li>
+                      `).join("")}
+                    </ol>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+
+          ${p.case_study ? `
+            <div class="box" style="margin-top:14px;">
+              <h4>Dataset / caso de negocio</h4>
+              <p><strong>Dataset base:</strong> ${p.case_study.dataset}</p>
+              <p><strong>Contexto:</strong> ${p.case_study.context}</p>
+              <p><strong>Preguntas clave:</strong> ${p.case_study.questions}</p>
+              <p><strong>Entregable:</strong> ${p.case_study.deliverable}</p>
+            </div>
+          ` : ""}
+
+          ${p.weeks_detail.map((w, wi) => `
+            <div class="week">
+              <div class="week-head" onclick="toggleWeek('${p.id}', ${wi})">
+                <strong>${w.label}</strong>
+                <span>${w.title}</span>
+                <span style="margin-left:auto; color: var(--muted2);">${w.days.filter((_, di)=>get(`day_${p.id}_${wi}_${di}`, false)).length}/${w.days.length}</span>
+                <span>▾</span>
+              </div>
+              <div class="week-body" id="week-${p.id}-${wi}" style="display:${get(`week_${p.id}_${wi}`, false) ? 'block' : 'none'};">
+                ${w.days.map((d, di) => `
+                  <div class="day ${get(`day_${p.id}_${wi}_${di}`, false) ? 'done' : ''}" id="day-${p.id}-${wi}-${di}">
+                    <b>${d.day}</b>
+                    <p>${d.content}</p>
+                    <div class="check" onclick="toggleDay('${p.id}', ${wi}, ${di})">✓</div>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          `).join("")}
+
+          <div class="tip">
+            <strong>Insight</strong>
+            ${p.tip}
+          </div>
+          <button style="margin-top:14px; width:100%; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); padding:12px 14px; border-radius:16px; cursor:pointer;" onclick="markPhaseDone('${p.id}')">
+            ${isDone ? '✓ Fase completada (desmarcar)' : 'Marcar fase completada'}
+          </button>
+        </div>
+      </section>
+    `;
+  }).join("");
+
+  const c = totalCounters();
+  const totalAll = c.totalDays + c.totalSkills + c.totalProjects;
+  const doneAll = c.doneDays + c.doneSkills + c.doneProjects;
+  const pct = totalAll ? Math.round((doneAll/totalAll)*100) : 0;
+  document.getElementById("globalFill").style.width = pct + "%";
+  document.getElementById("globalPct").textContent = pct + "%";
+  document.getElementById("statDays").textContent = `${c.doneDays}/${c.totalDays}`;
+  document.getElementById("statSkills").textContent = `${c.doneSkills}/${c.totalSkills}`;
+  document.getElementById("statProjects").textContent = `${c.doneProjects}/${c.totalProjects}`;
+}
+
+window.togglePhase = (id) => {
+  const open = toggle(`open_${id}`);
+  const body = document.getElementById(`body-${id}`);
+  const chev = document.querySelector(`#phase-${id} .chev`);
+  if (body) body.style.display = open ? "block" : "none";
+  if (chev) chev.textContent = open ? "▴" : "▾";
+};
+
+window.toggleWeek = (pid, wi) => {
+  const key = `week_${pid}_${wi}`;
+  const open = toggle(key);
+  const el = document.getElementById(`week-${pid}-${wi}`);
+  if (el) el.style.display = open ? "block" : "none";
+};
+
+window.toggleSkill = (pid, si) => {
+  const key = `skill_${pid}_${si}`;
+  toggle(key);
+  render();
+};
+
+window.toggleDay = (pid, wi, di) => {
+  const key = `day_${pid}_${wi}_${di}`;
+  toggle(key);
+  const el = document.getElementById(`day-${pid}-${wi}-${di}`);
+  if (el) el.classList.toggle("done");
+  render();
+};
+
+window.toggleStep = (pid, pi, si) => {
+  const key = `step_${pid}_${pi}_${si}`;
+  toggle(key);
+  render();
+};
+
+window.markPhaseDone = (id) => {
+  const key = `phase_done_${id}`;
+  toggle(key);
+  render();
+};
+
+render();
+</script>
+</body>
+</html>
